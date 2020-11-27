@@ -19,3 +19,6 @@ label 为可选，值可能是目录名称，也可能是 branch 名称，因为
     /{label}/{application-name}-{profile}.yml
     /{application-name}-{profile}.properties
     /{label}/{application-name}-{profile}.properties
+
+
+依次启动 eureka-server，config-server和 config-client，然后访问: `http://localhost:8771/hi` 返回 `foo version 21`
