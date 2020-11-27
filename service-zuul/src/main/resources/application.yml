@@ -1,0 +1,23 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+  instance:
+    hostname: localhost
+    port: 8761   # Eureka server's port
+
+server:
+  port: 8769     # service-zuul service port
+
+spring:
+  application:
+    name: service-zuul
+
+zuul:
+  routes:
+    api-a:
+      path: /api-r/**
+      serviceId: service-ribbon
+    api-b:
+      path: /api-f/**
+      serviceId: service-feign
