@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>cloud-config</artifactId>
+        <artifactId>HelloSpringCloud</artifactId>
         <groupId>pro.wangji</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>config-client</artifactId>
+    <artifactId>service-backend</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,27 +18,21 @@
         </dependency>
 
         <dependency>
-            <!-- 支持注册中心：以获得注册中心地址 -->
+            <!-- 支持服务发现 -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <!-- 用于将服务注册到 Eureka -->
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!-- 支持 service trace -->
         <dependency>
-            <!-- 支持从配置中心读取配置 -->
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <!-- 支持 RabbitMq 消息总线 -->
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-        </dependency>
-
-        <dependency>
-            <!-- 支持动态更新（actual） -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
     </dependencies>
 </project>

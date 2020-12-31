@@ -1,10 +1,10 @@
 # This is for this application, not for Eureka server
 server:
-  port: 8762
+  port: 8772
 
 spring:
   application:
-    name: service-hello
+    name: service-backend
   zipkin:
     # 配置 zipkin，支持 service trace
     base-url: http://192.168.56.110:9411/
