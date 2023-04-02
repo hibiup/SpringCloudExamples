@@ -4,15 +4,23 @@ server:
 eureka:
   instance:
     hostname: localhost
+    leaseRenewalIntervalInSeconds:
+      # 每 30 秒自声告一次自身的存活状态。这意味着一分钟内会声告2次，必须等于或高于 renewalPercentThreshold 的要求。
+      30
+  server:
+    renewalPercentThreshold:
+      # 每分钟内最少要收到几次声告才认为该服务处于有效存活状态。一般不少于 instance 的个数。
+      # By default, this property is set to 0.85, which means that at least 85% of registered instances must send
+      # renewal requests for Eureka to consider them as still up.
+      0.85  # ~=1
   client:
-    # 默认情况下erureka server也是一个eureka client ,必须要指定一个 server。
-    # 通过 eureka.client.registerWithEureka：false
-    # 和 fetchRegistry：false 来表明自己是一个 eureka server.
-    registerWithEureka: false
+    # 默认情况下 erureka server 自己也是一个eureka client ,必须要指定一个 server。
+    # 可以通过 eureka.client.registerWithEureka：false 和 fetchRegistry：false 来表明自己是一个 eureka server.
+    #registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 spring:
   application:
-    name: eurka-server
+    name: eureka-server

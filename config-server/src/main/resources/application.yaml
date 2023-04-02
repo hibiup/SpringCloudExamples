@@ -1,0 +1,84 @@
+server:
+    port: 7862
+
+eureka:
+    instance:
+        hostname: localhost
+        port: 7861
+    client:
+        serverUrl:
+            defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+spring:
+    application:
+        name: config-server
+    cloud:
+        config:
+            server:
+                native:
+                    searchLocations: "[classpath:/, classpath:/config, classpath:/config/{application}, classpath:/config/{application}/{profile}]"
+                git:
+                    default-label: master
+                    clone-on-start: true
+                    # ignore-local-ssh-settings=false: User local ssh settings
+                    ignore-local-ssh-settings: false
+                    # Or, if ignore-local-ssh-settings=false, copy and past private key here:
+                    private-key: |
+                        -----BEGIN OPENSSH PRIVATE KEY-----
+                        ...
+                        -----END OPENSSH PRIVATE KEY-----
+                    # ?? application name
+                    repos:
+                        # Repository URL ????: http://root:s3cr3t@localhost:8888/{application}/{profile}/[label]/[path/to/file_name]
+                        ConfigRepo-dev:
+                            # curl http://root:s3cr3t@localhost:8888/config-repo/[dev|development]/[main|develop]
+                            # pattern ??????
+                            #  1. ?? uri?
+                            #  2. ?? uri ?????application=config-repo; profile=[dev|development]; label=[main|master|...]
+                            pattern:
+                                - 'config-repo/development'     # ?????development/application.properties
+                                - 'config-repo/dev'             # ?????development/application.properties; development/application-dev.properties
+                            uri: git@github.com:hibiup/SpringCloudExamples.git
+                            search-paths:
+                                - '{application}/{profile}'     # ?????????application=config-repo; profile=[dev|development]
+                                - '{application}/development'   # ??????????? profile ???? `dev`?
+                            force-pull: true                    # ??????????? pull ???? cache ??????????????Default is false
+                        ConfigRepo-staging:
+                            # curl http://root:s3cr3t@localhost:8888/config-repo/[qa|staging]/[main|develop]
+                            pattern:
+                                - 'config-repo/qa'              # ?????development/application.properties; development/application-qa.properties;
+                                - 'config-repo/staging'         # ?????development/application.properties; development/application-staging.properties;
+                            uri: git@github.com:hibiup/SpringCloudExamples.git
+                            search-paths:
+                                - '{application}{profile}'      # ??
+                                - '{application}/staging'
+                            force-pull: true
+                        ConfigRepo-production:
+                            # curl http://root:s3cr3t@localhost:8888/config-repo/prod/[main|develop]
+                            pattern:
+                                - 'config-repo/prod'            # ?????development/application.properties
+                            uri: git@github.com:hibiup/SpringCloudExamples.git
+                            search-paths: '{application}/production'
+                            force-pull: true
+
+                        # ??????????????? repository?
+                        other-application:
+                            # curl http://root:s3cr3t@localhost:8888/<app_name>/[dev|development]
+                            # {application} ?????? uri ???? app_name
+                            # {profile} = [dev|qa|prod]
+                            # {label} = default as main|master
+                            pattern:
+                                - '*/dev/*'
+                                - '*/qa/*'
+                                - '*/prod/*'
+                            uri: git@github.com:hibiup/{application}.git   # ???? app_name.git
+                            search-paths: '{application}/{profile}'        # ??????????? app_name/development
+                            force-pull: false
+
+                        local:
+                            pattern: local*
+                            uri: file:${user.home}/mycode/java/SpringCloudExamples/config-repo
+                    # ??????? repos ?????????????? uri
+                    uri: git@github.com:hibiup/SpringCloudExamples.git
+                    search-paths: config-repo/development
+                    force-pull: true  # Update local cache every time when server is starting
