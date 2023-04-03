@@ -64,7 +64,7 @@ spring:
                             force-pull: true
 
                         # Example2： 通用（*）配置服务：
-                        # 不同的应用配置保存在到不同的 repository 或目录中，根据命名规则来匹配。
+                        # 不同的应用配置保存在到不同的 repository 或目录中，根据命名规则来匹配。匹配除了 `config-service`之外的其他服务。
                         other-application:
                             # curl http://root:s3cr3t@localhost:8888/<app_name>/[dev|development]
                             # {application} 被赋予从任意 uri 上得到的 app_name
