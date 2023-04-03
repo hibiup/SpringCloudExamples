@@ -29,40 +29,42 @@ spring:
                         -----END OPENSSH PRIVATE KEY-----
                     # ?? application name
                     repos:
+                        # Example 1: ? config-service ????????
                         # Repository URL ????: http://root:s3cr3t@localhost:${server.port}/{application}/{profile}/[label]/[path/to/file_name]
-                        eureka-service-1-dev:
-                            # curl http://root:s3cr3t@localhost:${server.port}/eureka-service-1/[dev|development]/[main|develop]
-                            # pattern ??????
+                        config-service-dev:
+                            # curl http://root:s3cr3t@localhost:${server.port}/config-service/[dev|development]/[main|develop]
+                            # pattern ?????
                             #  1. ?? uri?
-                            #  2. ?? uri ?????application=eureka-service-1; profile=[dev|development]; label=[main|master|...]
+                            #  2. ?? uri ?????application=config-service; profile=[dev|development]; label=[main|master|...]
                             pattern:
-                                - 'eureka-service-1/development'     # ?????development/application.properties
-                                - 'eureka-service-1/dev'             # ?????development/application.properties; development/application-dev.properties
+                                - 'config-service/development'     # ???? development/application.properties
+                                - 'config-service/dev'             # ???? development/application.properties; development/application-dev.properties
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
-                                - 'config-repo/{application}/{profile}'    # ?????????application=eureka-service-1; profile=[dev|development]
+                                - 'config-repo/{application}/{profile}'    # ???????? application=config-service; profile=[dev|development]
                                 - 'config-repo/{application}/development'  # ??????????? profile ???? `dev`?
                             force-pull: true                 # ??????????? pull ???? cache ??????????????Default is false
-                        eureka-service-1-staging:
-                            # curl http://root:s3cr3t@localhost:8888/eureka-service-1/[qa|staging]/[main|develop]
+                        config-service-staging:
+                            # curl http://root:s3cr3t@localhost:8888/config-service/[qa|staging]/[main|develop]
                             pattern:
-                                - 'eureka-service-1/qa'             # ?????development/application.properties; development/application-qa.properties;
-                                - 'eureka-service-1/staging'        # ?????development/application.properties; development/application-staging.properties;
+                                - 'config-service/qa'             # ?????development/application.properties; development/application-qa.properties;
+                                - 'config-service/staging'        # ?????development/application.properties; development/application-staging.properties;
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
                                 - 'config-repo/{application}{profile}'    # ??
                                 - 'config-repo/{application}/staging'
                             force-pull: true
-                        eureka-service-1-production:
-                            # curl http://root:s3cr3t@localhost:8888/eureka-service-1/prod/[main|develop]
+                        config-service-production:
+                            # curl http://root:s3cr3t@localhost:8888/config-service/prod/[main|develop]
                             pattern:
-                                - 'eureka-service-1/prod'          # ?????development/application.properties
+                                - 'config-service/prod'          # ???? development/application.properties
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
                                 - 'config-repo/{application}/production'
                             force-pull: true
 
-                        # ??????????????? repository?
+                        # Example2? ???*??????
+                        # ?????????????? repository ???????????????
                         other-application:
                             # curl http://root:s3cr3t@localhost:8888/<app_name>/[dev|development]
                             # {application} ?????? uri ???? app_name
@@ -72,15 +74,15 @@ spring:
                                 - '*/dev/*'
                                 - '*/qa/*'
                                 - '*/prod/*'
-                            uri: git@github.com:hibiup/{application}.git   # ???? app_name.git
-                            search-paths: 'config-repo/{application}/{profile}'       # ??????????? app_name/development
-                            force-pull: false
+                            uri: git@github.com:hibiup/SpringCloudExamples.git  # ??git@github.com:hibiup/{application}.git
+                            search-paths: 'config-repo/{application}/{profile}'
+                            force-pull: true
 
                         local:
                             pattern: local*
-                            uri: file:${user.home}/mycode/java/SpringCloudConfigExample/config-repo/eureka-service-1
+                            uri: file:${user.home}/mycode/java/SpringCloudConfigExample/config-repo/config-service
 
-                    # ?? uri: http://localhost:8762/eureka-service-1/default
+                    # ?? uri: http://localhost:8762/config-service/default
                     # ???? repos ?????????????????production?
                     uri: git@github.com:hibiup/SpringCloudExamples.git
                     search-paths:
