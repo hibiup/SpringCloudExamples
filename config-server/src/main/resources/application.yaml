@@ -42,7 +42,7 @@ spring:
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
                                 - 'config-repo/{application}/{profile}'    # 这里可以使用变量 application=config-service; profile=[dev|development]
-                                - 'config-repo/{application}/development'  # 配置一个缺省目录，因为 profile 可能等于 `dev`。
+                                - 'config-repo/{application}/dev'          # 配置一个缺省目录，因为 profile 可能等于 `development`。
                             force-pull: true                 # 每次请求的时候强制执行 pull 跟新本地 cache 以防止配置文件与远程不一致。Default is false
                         config-service-staging:
                             # curl http://root:s3cr3t@localhost:8888/config-service/[qa|staging]/[main|develop]
@@ -51,16 +51,15 @@ spring:
                                 - 'config-service/staging'        # 加载文件：development/application.properties; development/application-staging.properties;
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
-                                - 'config-repo/{application}{profile}'    # 同上
                                 - 'config-repo/{application}/staging'
                             force-pull: true
                         config-service-production:
                             # curl http://root:s3cr3t@localhost:8888/config-service/prod/[main|develop]
                             pattern:
-                                - 'config-service/prod'          # 加载文件 development/application.properties
+                                - 'config-service/prod*'    # 加载文件 development/application.properties
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
-                                - 'config-repo/{application}/production'
+                                - 'config-repo/{application}/prod'
                             force-pull: true
 
                         # Example2： 通用（*）配置服务：
