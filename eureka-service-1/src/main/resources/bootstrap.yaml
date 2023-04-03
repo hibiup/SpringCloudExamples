@@ -1,0 +1,29 @@
+server:
+  port: 8763
+
+eureka:
+  instance:
+    hostname: localhost
+    port: 8761
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+spring:
+  application.name: eureka-service-1
+  profiles:
+    active: dev
+  cloud:
+    #discovery:
+    #  client:
+    #    service-id: config-server
+    config:
+      # Use `service-id` to discover configure server from Eureka server
+      discovery:
+        enabled: true
+        service-id: config-server
+      #username: root
+      #password: s3cr3t
+      #headers:
+      # - Authorization: Basic cm9vdDpzM2NyM3Q=
