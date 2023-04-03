@@ -5,28 +5,29 @@
     <parent>
         <artifactId>HelloSpringCloud</artifactId>
         <groupId>pro.wangji</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service-feign</artifactId>
 
     <dependencies>
+        <!-- 支持服务注册 -->
         <dependency>
-            <!-- 支持服务注册 -->
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!-- 支持服务发现 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <dependency>
-            <!-- 支持服务发现 -->
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>config-service</artifactId>
+            <groupId>pro.wangji</groupId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

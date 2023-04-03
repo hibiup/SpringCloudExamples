@@ -3,16 +3,14 @@ package pro.wangji.feign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import pro.wangji.service.CheckConfigController;
 
 @SpringBootApplication
-@EnableEurekaClient
-@EnableDiscoveryClient
 @EnableFeignClients
 public class ServiceFeignApplication {
     public static void main(String[] args) {
@@ -21,33 +19,41 @@ public class ServiceFeignApplication {
 }
 
 /**
- * 定义一个 feign 接口，通过 @FeignClient（“服务名”），来指定代理哪个服务。比如 eureka-service 服务的 /hello 接口：
+ * 定义一个 feign 接口，通过 @FeignClient（“服务名”），来指定代理哪个服务。比如 config-service 服务的各项接口。
+ * 注意：代理的目标服务通过 interface 与 Feign 共享了接口。
  */
-@FeignClient(value = "service-hello", fallback = ServiceHelloDelegateFallback.class)
-interface ServiceHelloDelegate {
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
-    String sayHiFromClient(@RequestParam(value = "name") String name);
-}
+@FeignClient(value = "config-service", fallback = ConfigServiceDelegateFallback.class)
+interface ConfigServiceDelegate extends CheckConfigController{ }
 
 @RestController
-class HelloController {
+class CheckConfigDelegateController implements CheckConfigController {
     //编译器报错，无视。 因为这个Bean是在程序启动的时候注入的，编译器感知不到，所以报错。
     @Autowired
-    ServiceHelloDelegate serviceHelloDelegate;
+    ConfigServiceDelegate configServiceDelegate;
 
-    @GetMapping(value = "/hello")
-    public String sayHi(@RequestParam String name) {
-        return serviceHelloDelegate.sayHiFromClient( name );
+    @Override
+    public String getKey1() {
+        return configServiceDelegate.getKey1();
+    }
+
+    @Override
+    public String getKeyValue(String keyName) {
+        return configServiceDelegate.getKeyValue( keyName );
     }
 }
 
 /**
- * 当 ServiceHelloDelegate 失败时断路器 Feign 将访问该类。
+ * 当 ConfigServiceDelegate 失败时断路器 Feign 将访问该类。
  */
 @Component
-class ServiceHelloDelegateFallback implements ServiceHelloDelegate {
+class ConfigServiceDelegateFallback implements ConfigServiceDelegate {
     @Override
-    public String sayHiFromClient(String name) {
-        return "sorry "+name;
+    public String getKey1() {
+        return "404";
+    }
+
+    @Override
+    public String getKeyValue(String name) {
+        return "404";
     }
 }
