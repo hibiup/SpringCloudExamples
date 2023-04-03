@@ -27,54 +27,54 @@ spring:
                         -----BEGIN OPENSSH PRIVATE KEY-----
                         ...
                         -----END OPENSSH PRIVATE KEY-----
-                    # ?? application name
+                    # 指定 application name
                     repos:
-                        # Example 1: ? config-service ????????
-                        # Repository URL ????: http://root:s3cr3t@localhost:${server.port}/{application}/{profile}/[label]/[path/to/file_name]
+                        # Example 1: 为 config-service 模块提供配置服务
+                        # Repository URL 路径模版: http://root:s3cr3t@localhost:${server.port}/{application}/{profile}/[label]/[path/to/file_name]
                         config-service-dev:
                             # curl http://root:s3cr3t@localhost:${server.port}/config-service/[dev|development]/[main|develop]
-                            # pattern ?????
-                            #  1. ?? uri?
-                            #  2. ?? uri ?????application=config-service; profile=[dev|development]; label=[main|master|...]
+                            # pattern 有两个作用
+                            #  1. 匹配 uri。
+                            #  2. 根据 uri 设置变量：application=config-service; profile=[dev|development]; label=[main|master|...]
                             pattern:
-                                - 'config-service/development'     # ???? development/application.properties
-                                - 'config-service/dev'             # ???? development/application.properties; development/application-dev.properties
+                                - 'config-service/development'     # 加载文件 development/application.properties
+                                - 'config-service/dev'             # 加载文件 development/application.properties; development/application-dev.properties
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
-                                - 'config-repo/{application}/{profile}'    # ???????? application=config-service; profile=[dev|development]
-                                - 'config-repo/{application}/development'  # ??????????? profile ???? `dev`?
-                            force-pull: true                 # ??????????? pull ???? cache ??????????????Default is false
+                                - 'config-repo/{application}/{profile}'    # 这里可以使用变量 application=config-service; profile=[dev|development]
+                                - 'config-repo/{application}/development'  # 配置一个缺省目录，因为 profile 可能等于 `dev`。
+                            force-pull: true                 # 每次请求的时候强制执行 pull 跟新本地 cache 以防止配置文件与远程不一致。Default is false
                         config-service-staging:
                             # curl http://root:s3cr3t@localhost:8888/config-service/[qa|staging]/[main|develop]
                             pattern:
-                                - 'config-service/qa'             # ?????development/application.properties; development/application-qa.properties;
-                                - 'config-service/staging'        # ?????development/application.properties; development/application-staging.properties;
+                                - 'config-service/qa'             # 加载文件：development/application.properties; development/application-qa.properties;
+                                - 'config-service/staging'        # 加载文件：development/application.properties; development/application-staging.properties;
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
-                                - 'config-repo/{application}{profile}'    # ??
+                                - 'config-repo/{application}{profile}'    # 同上
                                 - 'config-repo/{application}/staging'
                             force-pull: true
                         config-service-production:
                             # curl http://root:s3cr3t@localhost:8888/config-service/prod/[main|develop]
                             pattern:
-                                - 'config-service/prod'          # ???? development/application.properties
+                                - 'config-service/prod'          # 加载文件 development/application.properties
                             uri: git@github.com:hibiup/SpringCloudExamples.git
                             search-paths:
                                 - 'config-repo/{application}/production'
                             force-pull: true
 
-                        # Example2? ???*??????
-                        # ?????????????? repository ???????????????
+                        # Example2： 通用（*）配置服务：
+                        # 不同的应用配置保存在到不同的 repository 或目录中，根据命名规则来匹配。
                         other-application:
                             # curl http://root:s3cr3t@localhost:8888/<app_name>/[dev|development]
-                            # {application} ?????? uri ???? app_name
+                            # {application} 被赋予从任意 uri 上得到的 app_name
                             # {profile} = [dev|qa|prod]
                             # {label} = default as main|master
                             pattern:
                                 - '*/dev/*'
                                 - '*/qa/*'
                                 - '*/prod/*'
-                            uri: git@github.com:hibiup/SpringCloudExamples.git  # ??git@github.com:hibiup/{application}.git
+                            uri: git@github.com:hibiup/SpringCloudExamples.git  # 或：git@github.com:hibiup/{application}.git
                             search-paths: 'config-repo/{application}/{profile}'
                             force-pull: true
 
@@ -82,8 +82,8 @@ spring:
                             pattern: local*
                             uri: file:${user.home}/mycode/java/SpringCloudConfigExample/config-repo/config-service
 
-                    # ?? uri: http://localhost:8762/config-service/default
-                    # ???? repos ?????????????????production?
+                    # 缺省 uri: http://localhost:8762/config-service/default
+                    # 如果以上 repos 配置全部没有命中，则去到缺省配置（production）
                     uri: git@github.com:hibiup/SpringCloudExamples.git
                     search-paths:
                         - 'config-repo/{application}/production'
