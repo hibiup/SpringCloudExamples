@@ -1,5 +1,6 @@
+# 随机指定端口，启动多个实例，通过 service-feign 实现负载均衡。
 server:
-  port: 8763
+  port: 0
 
 eureka:
   instance:
@@ -11,13 +12,11 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
 
 spring:
-  application.name: eureka-service-1
+  application:
+    name: config-service
   profiles:
     active: dev
   cloud:
-    #discovery:
-    #  client:
-    #    service-id: config-server
     config:
       # Use `service-id` to discover configure server from Eureka server
       discovery:

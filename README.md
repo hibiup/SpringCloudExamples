@@ -12,14 +12,19 @@
 
 配置管理通常是第二个要实现的服务
 
-在分布式系统中，服务数量可能众多，为了方便服务配置文件统一管理，实时更新，所以需要分布式配置中心组件。在Spring Cloud中，有分布式配置中心组件spring cloud config ，它支持配置服务放在配置服务的内存中（即本地），也支持放在远程Git仓库中。spring cloud config 组件分两个角色:
+在分布式系统中，服务数量可能众多，为了方便服务配置文件统一管理，实时更新，所以需要分布式配置中心组件。在Spring Cloud中，有分布式配置中心组件spring cloud config ，它支持配置服务放在配置服务的内存中（即本地），也支持放在远程Git仓库中。
 
-    * config-server
-    * config-client
+## 3. config-service
 
-## 3. eureka-service
+配置查询服务（随机端口，可以启动多个以支持负载均衡）。作为启动的第三个服务，它提供了一些用户功能，由 cloud-config 提供配置支持。
 
-  服务（随机端口，可以启动多个以支持负载均衡）
+## service-feign
+
+feign 是负载均衡，用户通过 feign 访问 config-service
+
+* Feign 采用的是基于接口的注解
+* Feign 整合了ribbon，具有负载均衡的能力
+* 整合了 Hystrix，具有熔断的能力
 
 # Advance
 
@@ -30,12 +35,6 @@
 ## service-ribbon
 
   具有负载均衡的服务客户端
-
-## service-feign
-
-  * Feign 采用的是基于接口的注解
-  * Feign 整合了ribbon，具有负载均衡的能力
-  * 整合了 Hystrix，具有熔断的能力
 
 ## service-zuul
 

@@ -39,9 +39,9 @@
     <modules>
         <module>eureka-server</module>
         <module>config-server</module>
-        <module>eureka-service-1</module>
-        <!--<module>service-ribbon</module>
+        <module>config-service</module>
         <module>service-feign</module>
+        <!--<module>service-ribbon</module>
         <module>service-zuul</module>
         <module>cloud-config</module>
         <module>service-backend</module>-->

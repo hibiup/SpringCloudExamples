@@ -2,22 +2,13 @@ package pro.wangji.service;
 
 //import brave.sampler.Sampler;
 //import brave.sampler.Sampler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 //import org.springframework.cloud.openfeign.EnableFeignClients;
 //import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,8 +22,8 @@ import java.util.logging.Logger;
 //@EnableDiscoveryClient
 //@EnableFeignClients
 //@RestController
-public class EurekaServiceApplication {
-    private static final Logger logger = Logger.getLogger(EurekaServiceApplication.class.getName());
+public class ConfigServiceApplication {
+    private static final Logger logger = Logger.getLogger(ConfigServiceApplication.class.getName());
 
     @Value("${server.port}")
     int port;
@@ -46,7 +37,7 @@ public class EurekaServiceApplication {
         app.setDefaultProperties(Collections.singletonMap("server.port", String.valueOf(port)));
         app.run(args);
         */
-        SpringApplication.run(EurekaServiceApplication.class, args);
+        SpringApplication.run(ConfigServiceApplication.class, args);
     }
 
     /**

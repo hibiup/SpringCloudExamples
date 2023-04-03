@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MyController {
+public class CheckConfigController {
     @Autowired
     private Environment env;
 
@@ -17,14 +17,14 @@ public class MyController {
     private String key1;
 
     @GetMapping(
-            value = "/key1",
+            value = "/config/key1",
             produces = MediaType.TEXT_PLAIN_VALUE)
     public String getKey1() {
         return String.format("The value of %s is %s...\n", "key1", key1);
     }
 
     @GetMapping(
-            value = "/{key_name}",
+            value = "/config/{key_name}",
             produces = MediaType.TEXT_PLAIN_VALUE)
     public String getKeyValue(@PathVariable("key_name") String keyName) {
         return String.format("The value of %s is %s...\n", keyName, env.getProperty(keyName));
