@@ -70,9 +70,9 @@ spring:
                             # {profile} = [dev|qa|prod]
                             # {label} = default as main|master
                             pattern:
-                                - '*/dev/*'
-                                - '*/qa/*'
-                                - '*/prod/*'
+                                - '*/dev'
+                                - '*/qa'
+                                - '*/prod'
                             uri: git@github.com:hibiup/SpringCloudExamples.git  # 或：git@github.com:hibiup/{application}.git
                             search-paths: 'config-repo/{application}/{profile}'
                             force-pull: true
