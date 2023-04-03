@@ -15,7 +15,7 @@ spring:
   application:
     name: config-service
   profiles:
-    active: dev
+    active: prod
   cloud:
     config:
       # Use `service-id` to discover configure server from Eureka server
