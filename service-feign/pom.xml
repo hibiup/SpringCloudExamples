@@ -11,42 +11,11 @@
 
     <artifactId>service-feign</artifactId>
 
-    <!--<repositories>
-        <repository>
-            <id>orbital-snapshots</id>
-            <url>https://repo.orbitalhq.com/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>orbital-releases</id>
-            <url>https://repo.orbitalhq.com/release</url>
-        </repository>
-    </repositories>-->
-
-    <properties>
-        <feign-reactor.version>3.2.6</feign-reactor.version>
-        <feign-reactor-cloud2.version>2.0.31</feign-reactor-cloud2.version>
-    </properties>
-
     <dependencies>
-        <!-- 支持服务注册 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
         <!-- 支持 Cloud Config -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <!-- 用 bootstrap 来加载配置,bootstrap 先于 application 被加载。 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
         <!-- 支持 (Reactive) Feign 服务代理 -->
@@ -54,27 +23,17 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.playtika.reactivefeign</groupId>
-            <artifactId>feign-reactor-webclient</artifactId>
-            <version>${feign-reactor.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.playtika.reactivefeign</groupId>
-            <artifactId>feign-reactor-cloud2</artifactId>
-            <version>${feign-reactor-cloud2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.playtika.reactivefeign</groupId>
-            <artifactId>feign-reactor-spring-configuration</artifactId>
-            <version>${feign-reactor.version}</version>
-        </dependency>-->
 
-        <!-- resilience4j 为接口提供断路器功能 -->
-        <!--<dependency>
+        <!-- Reactive-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-        </dependency>-->
+            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+        </dependency>
 
         <!-- 引入代理目标的接口定义 -->
         <dependency>
