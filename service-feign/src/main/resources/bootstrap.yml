@@ -13,7 +13,15 @@ server:
 spring:
   application:
     name: service-feign
+  profiles:
+    active: prod
+  cloud:
+    config:
+      # Use `service-id` to discover configure server from Eureka server
+      discovery:
+        enabled: true
+        service-id: config-server
 
-feign:
-  hystrix:
-    enabled=true:
+#feign:
+#  hystrix:
+#    enabled=true:

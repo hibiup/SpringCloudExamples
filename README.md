@@ -8,7 +8,7 @@
 
 服务注册与发现（eureka）通常是 Cloud 的第一个要实现的服务，其他服务，包括配置管理（Config）服务也需要注册到该服务上。
 
-## 2. cloud-config
+## 2. config-server
 
 配置管理通常是第二个要实现的服务
 
@@ -18,13 +18,15 @@
 
 配置查询服务（随机端口，可以启动多个以支持负载均衡）。作为启动的第三个服务，它提供了一些用户功能，由 cloud-config 提供配置支持。
 
-## service-feign
+## 4. service-feign
 
-feign 是负载均衡，用户通过 feign 访问 config-service
+feign 是负载均衡（通过生成一个伪 http 客户端实现和 ribbon 类似的功能但调用界面更友好），用户通过 feign 访问 config-service
 
 * Feign 采用的是基于接口的注解
-* Feign 整合了ribbon，具有负载均衡的能力
-* 整合了 Hystrix，具有熔断的能力
+* Feign 具有负载均衡的能力
+
+## 5. zuul 路由器
+
 
 # Advance
 
