@@ -41,10 +41,8 @@
         <module>config-server</module>
         <module>config-service</module>
         <module>service-feign</module>
-        <!--<module>service-ribbon</module>
-        <module>service-zuul</module>
-        <module>cloud-config</module>
-        <module>service-backend</module>-->
+        <module>service-gateway</module>
+        <module>service-loadbalancer</module>
     </modules>
 
     <dependencyManagement>
@@ -60,15 +58,12 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Support (Reactive) Web -->
+
+        <!-- 将 config 服务注册到 eureka -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>-->
 
         <!-- 为所有接口提供状态监控功能 -->
         <dependency>
@@ -76,11 +71,29 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- 用 bootstrap 来加载配置,bootstrap 先于 application 被加载。 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--<dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>-->
     </dependencies>
 
 </project>

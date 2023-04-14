@@ -1,3 +1,4 @@
+## Eureka
 eureka:
   instance:
     hostname: localhost
@@ -7,9 +8,10 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
 
+## Cloud config
 spring:
   application:
-    name: config-service
+    name: service-gateway
   profiles:
     active: prod
   cloud:
@@ -18,7 +20,3 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
-      #username: root
-      #password: s3cr3t
-      #headers:
-      # - Authorization: Basic cm9vdDpzM2NyM3Q=

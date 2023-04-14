@@ -1,0 +1,73 @@
+## Application
+server:
+  port: 8769
+
+spring:
+  cloud:
+    gateway:
+      # 可以通过两种方式定义路由表：
+      # 1. @Bean RouteLocator - 参考 RouteConfiguration
+      # 2. 配置文件 - 参考以下。
+      routes:
+        - id: httpbin-org
+          # Forward to 3rd website：httpbin.org
+          uri: http://httpbin.org:80
+          # 路由条件
+          predicates:
+            - Host=httpbin.org:80
+            - Path=/get
+          # 修改或添加请求信息
+          filters:
+            - AddRequestHeader=Hello, World
+
+        - id: config-service
+          # Forward to http://localhost:8763/config 和 http://localhost:8763/delay.
+          uri: http://localhost:8763
+          # 转发的判定（predicate）条件:
+          #  - 带有 mycookie=mycookievalue
+          #  - 和 host='**.somehost.org' 或 '**.anotherhost.org'
+          #  - URL path= /config/{segment} 或 delay/{segment}
+          predicates:
+            #- Cookie=mycookie,mycookievalue
+            #- Host=**.somehost.org,**.anotherhost.org
+            - Path=/config/{segment},/delay/{segment}
+          # Filters 用于修改转发的 http 请求。
+          filters:
+            # 添加一条 header
+            - AddRequestHeader=Authorization, Basic dXNlcm5hbWU6cGFzc3dvcmQ=    # username:password
+            # 加装一条断路器
+            - name: CircuitBreaker
+              args:
+                # 给过滤器起个任意名字
+                name: configFallbackcb
+                # 用自定义的 /inCaseOfFailureUseThis Controller 作为失败转发目的地。
+                fallbackUri: forward:/inCaseOfFailureUseThis
+
+      # 缺省全局过滤器，会添加到所有路由上，如果具体的路由中存在同名或同类配置，则全局的被覆盖。
+      default-filters:
+        - PreserveHostHeader
+        - name: RequestSize
+          args:
+            maxSize: 5MB
+        - SecureHeaders
+        - DedupeResponseHeader=Vary Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - OPTIONS
+            allowedHeaders:
+              - Accept
+              - Content-Type
+              - Origin
+              - X-Tenant
+            allowCredentials: false
+        add-to-simple-url-handler-mapping: true

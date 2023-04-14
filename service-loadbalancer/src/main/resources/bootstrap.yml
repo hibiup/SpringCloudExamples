@@ -1,15 +1,14 @@
 eureka:
-  instance:
-    hostname: localhost
-    port: 8761
   client:
-    registerWithEureka: true
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+  instance:
+    hostname: localhost
+    port: 8761   # Eureka server's port
 
 spring:
   application:
-    name: config-service
+    name: service-loadbalancer
   profiles:
     active: prod
   cloud:
@@ -18,7 +17,3 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
-      #username: root
-      #password: s3cr3t
-      #headers:
-      # - Authorization: Basic cm9vdDpzM2NyM3Q=

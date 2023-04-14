@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-feign</artifactId>
+    <artifactId>service-gateway</artifactId>
 
     <dependencies>
         <!-- 支持 Cloud Config -->
@@ -18,33 +18,15 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!-- 支持 (Reactive) Feign 服务代理 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <!-- Support (Reactive) Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>-->
-
-        <!-- (Reactive) circular breaker-->
+        <!-- Support circular break -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
-        </dependency>
-
-        <!-- 引入代理目标的接口定义 -->
-        <dependency>
-            <artifactId>config-service</artifactId>
-            <groupId>pro.wangji</groupId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

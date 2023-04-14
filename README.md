@@ -18,30 +18,26 @@
 
 配置查询服务（随机端口，可以启动多个以支持负载均衡）。作为启动的第三个服务，它提供了一些用户功能，由 cloud-config 提供配置支持。
 
-## 4. service-feign
+## 4.1 service-feign
 
-feign 是负载均衡（通过生成一个伪 http 客户端实现和 ribbon 类似的功能但调用界面更友好），用户通过 feign 访问 config-service
+feign 是客户端负载均衡（通过生成一个伪 http 客户端实现和 ribbon 类似的功能但调用界面更友好），用户通过 feign 访问 config-service
 
 * Feign 采用的是基于接口的注解
 * Feign 具有负载均衡的能力
+* Feign 可以集成断路器，参考：https://medium.com/@fazazulfikapp/spring-cloud-circuit-breaker-implementation-using-resilience4j-and-spring-open-feign-734d0fd34e37
 
-## 5. zuul 路由器
+## 4.2 service-loadbalancer
+
+和 Feign 类似的客户端负载均衡解决方案，参考：https://spring.io/guides/gs/spring-cloud-loadbalancer/
+
+## 5. gateway 路由器（取代 zuul）
+
+Feign 和 Ribbon （通过伪 http client）实现了服务内部 api 的调用路由，并暴露出外部 api，多个外部 api 可以通过网关合集成在一个
+域名下以形成更大的应用。例如可以实现 /user 路径路由到A服务集群，/admin 路径路由到B服务集群。同时网关还可以实现统一认证。
+
+参考：
+* https://cloud.spring.io/spring-cloud-gateway/reference/html/
+* https://spring.io/guides/gs/gateway/
 
 
-# Advance
-
-## Gateway
-
-## OAuth2
-
-## service-ribbon
-
-  具有负载均衡的服务客户端
-
-## service-zuul
-
-  * 在 ribbon 的基础上进一步提供了路由功能。
-  * 支持过滤器：通过 http://localhost:8769/api-r/hello?name=forezp&token=22 或 http://localhost:8769/api-f/hello?name=forezp&token=22 访问。
-  没有 `token` 参数返回 `token is empty`
-  
 

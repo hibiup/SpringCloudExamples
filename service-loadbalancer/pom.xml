@@ -2,14 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>HelloSpringCloud</artifactId>
         <groupId>pro.wangji</groupId>
         <version>${revision}</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-feign</artifactId>
+    <artifactId>service-loadbalancer</artifactId>
 
     <dependencies>
         <!-- 支持 Cloud Config -->
@@ -18,27 +19,29 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!-- 支持 (Reactive) Feign 服务代理 -->
+        <!-- 访问 service 的 client 同样需要成为 Eureka 的客户端，通过向 Eureka 提交服务名称来查询被负载均衡的服务地址 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- Support (Reactive) Web -->
+        <!-- 让客户端在多个服务之间施行轮询访问。-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <!--<dependency>
+
+        <!-- Load balancer 本身提供异步访问 -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>-->
-
-        <!-- (Reactive) circular breaker-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
         </dependency>
+
+        <!-- 加入 hystrix 断路器 -->
+        <!--<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>-->
 
         <!-- 引入代理目标的接口定义 -->
         <dependency>
@@ -47,4 +50,5 @@
             <version>${revision}</version>
         </dependency>
     </dependencies>
+
 </project>
