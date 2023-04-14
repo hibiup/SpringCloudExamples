@@ -12,24 +12,24 @@ spring:
         - id: httpbin-org
           # Forward to 3rd website：httpbin.org
           uri: http://httpbin.org:80
-          # 路由条件
           predicates:
+            # 转发的判定（predicate）条件:
             - Host=httpbin.org:80
             - Path=/get
-          # 修改或添加请求信息
           filters:
+            # 修改或添加请求信息
             - AddRequestHeader=Hello, World
 
         - id: config-service
           # Forward to http://localhost:8763/config 和 http://localhost:8763/delay.
           uri: http://localhost:8763
-          # 转发的判定（predicate）条件:
-          #  - 带有 mycookie=mycookievalue
-          #  - 和 host='**.somehost.org' 或 '**.anotherhost.org'
-          #  - URL path= /config/{segment} 或 delay/{segment}
+          #转发的判定（predicate）条件:
           predicates:
+            #带有 mycookie=mycookievalue
             #- Cookie=mycookie,mycookievalue
+            #host='**.somehost.org' 或 '**.anotherhost.org'
             #- Host=**.somehost.org,**.anotherhost.org
+            #URL path= /config/{segment} 或 delay/{segment}
             - Path=/config/{segment},/delay/{segment}
           # Filters 用于修改转发的 http 请求。
           filters:
